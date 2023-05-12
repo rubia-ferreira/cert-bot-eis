@@ -28,7 +28,7 @@ function sendMessage() {
         var message = ":calendar: " + "*This certs from Serasa will be expired in the next 30 days!* " + ":alert-siren2-blue:" + "\n" + "\n"
         +result+ "\n"
         var slack = new Bot()
-        slack.send(message, "C054MV6JF26")
+        slack.send(message, "") // Add ID from bot
     }
 }
 sendMessage()
