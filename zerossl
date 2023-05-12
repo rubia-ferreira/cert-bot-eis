@@ -1,0 +1,34 @@
+function findNext30DaysOnColumn() {
+
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("ZeroSSL")
+    var lastRow = sheet.getLastRow();
+    var columnToSearch = 7; // Replace with the column number you want to search
+    var today = new Date();
+    var thirtyDaysFromNow = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
+    var rows = sheet.getDataRange().getValues();
+    var row = "";
+
+    for (var i = 0; i < rows.length; i++) {
+      var date = new Date(rows[i][columnToSearch - 1]);
+      if (date >= today && date <= thirtyDaysFromNow) {
+        // Format the date using the Utilities.formatDate() method
+        var formattedDate = Utilities.formatDate(date, "GMT+1", "dd/MM/yyyy");
+        // Concatenate the formatted date and other column values to the row variable
+        row += rows[i][2] + "\n" + formattedDate + "\n" + "\n";
+      }
+    }
+    return row;
+  }
+
+function sendMessage() {
+// Call the function and concatenate the result with a string
+  var result = findNext30DaysOnColumn();
+
+    if (result !== ""){
+        var message = ":calendar: " + "*This certs from ZeroSSL will be expired in the next 30 days!* " + ":alert-siren2-blue:" + "\n" + "\n"
+        +result+ "\n"
+        var slack = new Bot()
+        slack.send(message, "C054MV6JF26")
+    }
+}
+sendMessage()
